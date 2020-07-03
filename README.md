@@ -1,2 +1,3 @@
 # world-happiness-index
-Created with CodeSandbox
+
+d3 experiments with World Happiness Index data
