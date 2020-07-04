@@ -2,3 +2,11 @@
   font-family: sans-serif;
   text-align: center;
 }
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.overflow-x-scroll {
+  overflow-x: scroll;
+}
