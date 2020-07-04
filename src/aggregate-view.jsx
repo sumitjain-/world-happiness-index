@@ -147,13 +147,16 @@ export function AggregateView({ yearDataMap, year }) {
                   {showNumCountries && (
                     <td>{groupedData[regionName].countries.length}</td>
                   )}
-                  {aggregateOptions.map(opt => (
-                    <td key={opt}>
-                      {groupedData[regionName].aggregate[opt] % 1
-                        ? groupedData[regionName].aggregate[opt].toFixed(2)
-                        : groupedData[regionName].aggregate[opt]}
-                    </td>
-                  ))}
+                  {aggregateOptions.map(opt => {
+                    const val = groupedData[regionName].aggregate[opt];
+                    let result = val;
+                    if (isNaN(val)) {
+                      result = <>&mdash;</>;
+                    } else if (val % 1 > 0) {
+                      result = val.toFixed(2);
+                    }
+                    return <td key={opt}>{result}</td>;
+                  })}
                 </tr>
               ))}
             </tbody>
@@ -165,7 +168,7 @@ export function AggregateView({ yearDataMap, year }) {
 
   return (
     <div>
-      {groupingOptions.length && renderSelect()}
+      {!!groupingOptions.length && renderSelect()}
       {!!groupBy && renderTable()}
     </div>
   );

@@ -62,14 +62,14 @@ export function CountryView({ yearDataMap, year, loading }) {
       {selectedCountry && (
         <>
           <h3 className="mt-4">{selectedCountry.Country}</h3>
-          <h4>Columns</h4>
-          <div className="mx-n3">
+          <table className="table table-bordered">
             {Object.keys(selectedCountry).map(f => (
-              <div className="d-block m-2 p-2" key={f}>
-                {`${f}: ${selectedCountry[f]}`}
-              </div>
+              <tr>
+                <td>{f}</td>
+                <td>{selectedCountry[f]}</td>
+              </tr>
             ))}
-          </div>
+          </table>
         </>
       )}
     </div>
