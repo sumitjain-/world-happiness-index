@@ -9,8 +9,8 @@ import { CountryView } from "./country-view";
 const yearOptions = [2015, 2016, 2017, 2018, 2019];
 
 export default function App() {
-  const [viewMode, setViewMode] = useState("aggregate"); // 'country' | 'aggregate'
-  const [year, setYear] = useState(2015);
+  const [viewMode, setViewMode] = useState("country"); // 'country' | 'aggregate'
+  const [year, setYear] = useState(2019);
   const [loading, setLoading] = useState(false);
 
   const [yearDataMap, setYearData] = useState({});

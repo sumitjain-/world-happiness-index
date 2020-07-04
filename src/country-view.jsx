@@ -9,10 +9,15 @@ export function CountryView({ yearDataMap, year, loading }) {
     try {
       const results = searchValue.length
         ? (yearDataMap[year].length ? yearDataMap[year] : [])
-            .filter(x => x.Country.toLowerCase().indexOf(searchValue) >= 0)
+            .filter(
+              x =>
+                (x.Country || x["Country or region"])
+                  .toLowerCase()
+                  .indexOf(searchValue) >= 0
+            )
             .slice(0, 10)
         : [];
-      console.log(results);
+      // console.log(results);
       setCountrySearchResults(results);
     } catch (e) {}
   }, [year, yearDataMap, searchValue]);
@@ -52,10 +57,9 @@ export function CountryView({ yearDataMap, year, loading }) {
             onClick={() => {
               setSearchValue("");
               setSelectedCountry(item);
-              console.log(item);
             }}
           >
-            {item.Country}
+            {item.Country || item["Country or region"]}
           </div>
         ))}
       </div>
@@ -63,12 +67,23 @@ export function CountryView({ yearDataMap, year, loading }) {
         <>
           <h3 className="mt-4">{selectedCountry.Country}</h3>
           <table className="table table-bordered">
-            {Object.keys(selectedCountry).map(f => (
-              <tr>
-                <td>{f}</td>
-                <td>{selectedCountry[f]}</td>
-              </tr>
-            ))}
+            <tbody>
+              {Object.keys(selectedCountry).map(f => {
+                let val = selectedCountry[f];
+                if (typeof val === "string") {
+                } else if (isNaN(val)) {
+                  val = <>&mdash;</>;
+                } else if (val % 1 > 0) {
+                  val = val.toFixed(2);
+                }
+                return (
+                  <tr>
+                    <td>{f}</td>
+                    <td>{val}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
           </table>
         </>
       )}
