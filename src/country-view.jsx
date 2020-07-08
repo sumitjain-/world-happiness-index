@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import * as d3 from "d3";
+import { NumericCellRenderer } from "./numeric-cell-renderer";
 
 const defaultCountry = {
   "Country or region": "Norway",
@@ -12,26 +13,6 @@ const defaultCountry = {
   Score: 7.554,
   "Social support": 1.582
 };
-
-function numericCellRendererFactory(countryData) {
-  return ({ key: f, min, max }) => {
-    let val = countryData[f];
-    let renderer = p => p;
-    if (isNaN(val)) {
-      renderer = p => <>&mdash;</>;
-    } else if (val % 1 > 0) {
-      renderer = p => p.toFixed(2);
-    }
-    return (
-      <tr>
-        <td>{f}</td>
-        <td>
-          {`${renderer(val)} (min: ${renderer(min)} | max: ${renderer(max)})`}
-        </td>
-      </tr>
-    );
-  };
-}
 
 export function CountryView({ yearDataMap, year, loading }) {
   const [searchValue, setSearchValue] = useState("");
@@ -137,9 +118,17 @@ export function CountryView({ yearDataMap, year, loading }) {
                 <td>{selectedCountry[f]}</td>
               </tr>
             ))}
-            {fieldTypes["number"].map(
-              numericCellRendererFactory(selectedCountry)
-            )}
+            {fieldTypes["number"].map(values => (
+              <tr>
+                <td className="align-middle">{values.key}</td>
+                <td>
+                  <NumericCellRenderer
+                    values={values}
+                    selectedCountry={selectedCountry}
+                  />
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </>
